@@ -1,5 +1,6 @@
 [package]
 name = "Aymr"
+description = "Plug and play various KV databases and access them over the network."
 version = "0.0.0"
 edition = "2021"
 license = "GPLv2"
