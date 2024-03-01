@@ -3,7 +3,7 @@ name = "Aymr"
 description = "Plug and play various KV databases and access them over the network."
 version = "0.0.0"
 edition = "2021"
-license = "GPLv2"
+license = "GPL-2.0-or-later"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
