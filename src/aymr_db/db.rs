@@ -3,8 +3,9 @@ use std::result::Result;
 /// The type representing an inline array of bytes.
 pub type InlineArray = Vec<u8>;
 
-/// A trait representing a key-value database.
-pub trait Database {
+/// Aymr database trait. Represents an easily implementable,
+/// common API for various KV databases.
+pub trait AymrDatabase {
     /// Clears the entire database, removing all values.
     fn clear(&self) -> Result<(), E>;
 
