@@ -6,7 +6,9 @@ use crate::aymr_db::error::Error;
 pub type InlineArray = Vec<u8>;
 
 /// Trait for marking that the database we're opening is compatible with Aymr.
-pub trait AymrOpenable {}
+pub trait AymrOpenable {
+    fn open() -> Self;
+}
 
 /// Aymr database trait. Represents an easily implementable,
 /// common API for various KV databases.
@@ -60,3 +62,8 @@ pub trait AymrFlush {
     /// Flushes all dirty IO buffers and fsyncs.
     fn flush(&self) -> Result<(), Error>;
 }
+
+/// Marker trait to denote that a type is designed to work
+/// with Aymr.
+pub trait AymrConfig {}
+

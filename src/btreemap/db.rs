@@ -75,4 +75,12 @@ where
     }
 }
 
-impl<K, V> AymrOpenable for AymrBtreeMap<K, V> {}
+impl<K, V> AymrOpenable for AymrBtreeMap<K, V> {
+    fn open() -> Self {
+        let db = BTreeMap::new();
+
+        AymrBtreeMap {
+            db,
+        }
+    }
+}
