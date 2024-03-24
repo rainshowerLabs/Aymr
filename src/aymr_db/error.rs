@@ -1,7 +1,10 @@
 use std::{
     cmp::PartialEq,
     error::Error as StdError,
-    fmt::{self, Display},
+    fmt::{
+        self,
+        Display,
+    },
     io,
 };
 
@@ -69,7 +72,12 @@ impl Clone for Error {
             CollectionNotFound(name) => CollectionNotFound(name.clone()),
             Unsupported(why) => Unsupported(why.clone()),
             ReportableBug(what) => ReportableBug(what.clone()),
-            Corruption { at, bt } => Corruption { at: at.clone(), bt: bt.clone() },
+            Corruption { at, bt } => {
+                Corruption {
+                    at: at.clone(),
+                    bt: bt.clone(),
+                }
+            }
             #[cfg(feature = "failpoints")]
             FailPoint => FailPoint,
         }
@@ -137,28 +145,35 @@ impl From<Error> for io::Error {
         use std::io::ErrorKind;
         match error {
             Io(ioe) => ioe,
-            CollectionNotFound(name) =>
+            CollectionNotFound(name) => {
                 io::Error::new(
-                ErrorKind::NotFound,
-                format!("collection not found: {:?}", name),
-            ),
-            Unsupported(why) => io::Error::new(
-                ErrorKind::InvalidInput,
-                format!("operation not supported: {:?}", why),
-            ),
-            ReportableBug(what) => io::Error::new(
-                ErrorKind::Other,
-                format!("unexpected bug! please report this bug at <github.rs/spacejam/sled>: {:?}", what),
-            ),
-            Corruption { .. } => io::Error::new(
-                ErrorKind::InvalidData,
-                format!("corruption encountered: {:?}", error),
-            ),
+                    ErrorKind::NotFound,
+                    format!("collection not found: {:?}", name),
+                )
+            }
+            Unsupported(why) => {
+                io::Error::new(
+                    ErrorKind::InvalidInput,
+                    format!("operation not supported: {:?}", why),
+                )
+            }
+            ReportableBug(what) => {
+                io::Error::new(
+                    ErrorKind::Other,
+                    format!(
+                        "unexpected bug! please report this bug at <github.rs/spacejam/sled>: {:?}",
+                        what
+                    ),
+                )
+            }
+            Corruption { .. } => {
+                io::Error::new(
+                    ErrorKind::InvalidData,
+                    format!("corruption encountered: {:?}", error),
+                )
+            }
             #[cfg(feature = "failpoints")]
-            FailPoint => io::Error::new(
-                ErrorKind::Other,
-                "failpoint"
-            ),
+            FailPoint => io::Error::new(ErrorKind::Other, "failpoint"),
         }
     }
 }
@@ -166,10 +181,7 @@ impl From<Error> for io::Error {
 impl StdError for Error {}
 
 impl Display for Error {
-    fn fmt(
-        &self,
-        f: &mut fmt::Formatter<'_>,
-    ) -> std::result::Result<(), fmt::Error> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> std::result::Result<(), fmt::Error> {
         use self::Error::*;
 
         match self {
@@ -177,20 +189,24 @@ impl Display for Error {
                 write!(f, "Collection {:?} does not exist", name,)
             }
             Unsupported(ref e) => write!(f, "Unsupported: {}", e),
-            ReportableBug(ref e) => write!(
-                f,
-                "Unexpected bug has happened: {}. \
+            ReportableBug(ref e) => {
+                write!(
+                    f,
+                    "Unexpected bug has happened: {}. \
                  PLEASE REPORT THIS BUG!",
-                e
-            ),
+                    e
+                )
+            }
             #[cfg(feature = "failpoints")]
             FailPoint => write!(f, "Fail point has been triggered."),
             Io(ref e) => write!(f, "IO error: {}", e),
-            Corruption { at, ref bt } => write!(
-                f,
-                "Read corrupted data at file offset {:?} backtrace {:?}",
-                at, bt
-            ),
+            Corruption { at, ref bt } => {
+                write!(
+                    f,
+                    "Read corrupted data at file offset {:?} backtrace {:?}",
+                    at, bt
+                )
+            }
         }
     }
 }
