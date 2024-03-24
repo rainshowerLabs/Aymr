@@ -1,5 +1,7 @@
 use std::result::Result;
 
+use crate::aymr_db::error::Error;
+
 /// The type representing an inline array of bytes.
 pub type InlineArray = Vec<u8>;
 
@@ -7,34 +9,34 @@ pub type InlineArray = Vec<u8>;
 /// common API for various KV databases.
 pub trait AymrDatabase {
     /// Clears the entire database, removing all values.
-    fn clear(&self) -> Result<(), E>;
+    fn clear(&self) -> Result<(), Error>;
 
     /// Returns the number of elements in the database.
     fn len(&self) -> usize;
 
     /// Returns true if the database is empty, false otherwise.
-    fn is_empty(&self) -> Result<bool, E>;
+    fn is_empty(&self) -> Result<bool, Error>;
 
     /// Flushes all dirty IO buffers and fsyncs.
-    fn flush(&self) -> Result<(), E>;
+    fn flush(&self) -> Result<(), Error>;
 
     /// Retrieves a value from the database if it exists.
-    fn get<K: AsRef<[u8]>>(&self, key: K) -> Result<Option<InlineArray>, E>;
+    fn get<K: AsRef<[u8]>>(&self, key: K) -> Result<Option<InlineArray>, Error>;
 
     /// Inserts a new key-value pair into the database, returning the old value if it was set.
-    fn insert<K, V>(&self, key: K, value: V) -> Result<Option<InlineArray>, E>
+    fn insert<K, V>(&self, key: K, value: V) -> Result<Option<InlineArray>, Error>
     where
         K: AsRef<[u8]>,
         V: AsRef<[u8]>;
 
     /// Removes a key-value pair from the database, returning the old value if it existed.
-    fn remove<K: AsRef<[u8]>>(&self, key: K) -> Result<Option<InlineArray>, E>;
+    fn remove<K: AsRef<[u8]>>(&self, key: K) -> Result<Option<InlineArray>, Error>;
 
     /// Applies a batch of operations to the database atomically.
-    fn apply_batch(&self, batch: dyn Batch) -> Result<(), E>;
+    fn apply_batch<B: Batch>(&self, batch: B) -> Result<(), Error>;
 
     /// Returns true if the database contains a value for the specified key.
-    fn contains_key<K: AsRef<[u8]>>(&self, key: K) -> Result<bool, E>;
+    fn contains_key<K: AsRef<[u8]>>(&self, key: K) -> Result<bool, Error>;
 }
 
 /// A trait representing a batch of operations to be applied to a database.
