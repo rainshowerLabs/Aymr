@@ -59,7 +59,6 @@ where
     #[cfg(feature = "hashmap")]
     #[allow(dead_code)]
     pub fn open() -> Self {
-
         let rax = AymrDb {
             db: AymrHashMap::open(),
         };

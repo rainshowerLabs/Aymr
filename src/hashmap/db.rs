@@ -1,9 +1,9 @@
 //! # `hashmap`
-//! 
+//!
 //! This is a basic impl of the aymr DB traits for `std::collections::HashMap`.
-//! 
+//!
 //! Using a BTreeMap is optimal when:
-//! 
+//!
 //! - You want to associate arbitrary keys with an arbitrary value.
 //! - You want a cache.
 //! - You want a map, with no extra functionality.
@@ -26,7 +26,7 @@ use crate::aymr_db::{
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AymrHashMap<K, V>
 where
-	K: Eq + std::hash::Hash,
+    K: Eq + std::hash::Hash,
 {
     db: HashMap<K, V>,
 }
@@ -74,7 +74,7 @@ where
 
 impl<K, V> AymrOpenable for AymrHashMap<K, V>
 where
-	K: Eq + std::hash::Hash,
+    K: Eq + std::hash::Hash,
 {
     fn open() -> Self {
         let db = HashMap::new();
