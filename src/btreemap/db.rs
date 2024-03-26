@@ -51,7 +51,7 @@ where
     }
 
     fn get(&self, key: &K) -> Result<Option<InlineArray>, Error> {
-        let rax = self.db.get(&key).map(|v| v.as_ref().to_vec());
+        let rax = self.db.get(key).map(|v| v.as_ref().to_vec());
         Ok(rax)
     }
 
@@ -63,22 +63,19 @@ where
         Ok(self.db.remove(&key).map(|v| v.as_ref().to_vec()))
     }
 
-    fn apply_batch<B: Batch>(&self, batch: B) -> Result<(), Error> {
+    fn apply_batch<B: Batch>(&self, _batch: B) -> Result<(), Error> {
         // Implement apply_batch logic here
         todo!()
     }
 
     fn contains_key(&self, key: &K) -> Result<bool, Error> {
-        Ok(self.db.contains_key(&key))
+        Ok(self.db.contains_key(key))
     }
 }
 
 impl<K, V> AymrOpenable for AymrBtreeMap<K, V> {
     fn open() -> Self {
         let db = BTreeMap::new();
-
-        let rax = AymrBtreeMap { db };
-
-        rax
+        AymrBtreeMap { db }
     }
 }

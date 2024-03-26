@@ -52,6 +52,7 @@ pub enum Error {
 }
 
 impl Error {
+    #[allow(dead_code)]
     pub(crate) fn corruption(at: Option<String>) -> Error {
         Error::Corruption {
             at,
@@ -75,7 +76,7 @@ impl Clone for Error {
             Corruption { at, bt } => {
                 Corruption {
                     at: at.clone(),
-                    bt: bt.clone(),
+                    bt: *bt,
                 }
             }
             #[cfg(feature = "failpoints")]

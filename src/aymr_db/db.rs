@@ -30,12 +30,13 @@ use super::{
 
 #[derive(Debug)]
 pub struct AymrDb<K, V> {
-    #[feature(btreemap)]
+    #[cfg(feature = "btreemap")]
     db: AymrBtreeMap<K, V>,
 }
 
 impl<K, V> AymrDb<K, V> {
-    #[feature(btreemap)]
+    #[cfg(feature = "btreemap")]
+    #[allow(dead_code)]
     fn open() -> Arc<Self> {
         let rax = AymrDb {
             db: AymrBtreeMap::open(),
