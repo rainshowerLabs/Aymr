@@ -15,7 +15,6 @@
 //! Aymr does not offer any additional data safety or guarantees not provided by
 //! the underlying database.
 
-
 use std::sync::Arc;
 
 use crate::btreemap::db::AymrBtreeMap;
@@ -38,7 +37,6 @@ pub struct AymrDb<K, V> {
 impl<K, V> AymrDb<K, V> {
     #[feature(btreemap)]
     fn open() -> Arc<Self> {
-        
         let rax = AymrDb {
             db: AymrBtreeMap::open(),
         };
@@ -88,7 +86,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    
+
     // Helper function to create an instance of AymrDb for testing
     fn create_test_db<K: AsRef<[u8]> + Ord, V: AsRef<[u8]>>() -> AymrDb<K, V> {
         AymrDb {
@@ -160,6 +158,4 @@ mod tests {
         assert_eq!(db.len(), 0);
         assert!(db.is_empty().unwrap());
     }
-
 }
-

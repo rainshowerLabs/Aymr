@@ -14,9 +14,7 @@
 //!
 //! Aymr btreemap does not flush to disk. Every change you have is exclusively going to be in-memory.
 
-use std::{
-    collections::BTreeMap,
-};
+use std::collections::BTreeMap;
 
 use crate::aymr_db::{
     error::Error,
