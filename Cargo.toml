@@ -1,5 +1,5 @@
 [package]
-name = "aymr"
+name = "Aymr"
 description = "Plug and play various KV databases and access them over the network."
 version = "0.0.1"
 edition = "2021"
