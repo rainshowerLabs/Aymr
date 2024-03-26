@@ -18,6 +18,7 @@ It's important to note there's a lot of nuance between different KV databases, a
 Aymr is a rust library and can be imported as such. In order to select the database you want to use, please use the appropriate feature flag. For now we support the following:
 
 - [BTreeMap](https://doc.rust-lang.org/std/collections/struct.BTreeMap.html)
+- [HashMap](https://doc.rust-lang.org/std/collections/struct.HashMap.html)
 
 Because database configs have little in common with each other, the config for every Aymr Db will be different. Please consult the Aymr docs for more info in how to set up and run each DB.
 
