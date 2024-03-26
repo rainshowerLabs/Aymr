@@ -1,3 +1,21 @@
+//! `Aymr DB`
+//!
+//! The `AymrDb` type is a wrapper used to access databases that implement
+//! the Aymr set of traits. Opening is achieved via calling the open fn which
+//! will return a referance to the Db. Due to different databases having different
+//! ways of being opened, this is managed by feature flags that correspond with your
+//! desired database.
+//!
+//! The database cannot be dereferanced and may not be `Sync`. Aymr being `Sync`
+//! depends on if the underlying database that's used is `Sync`. If you require
+//! `Sync` on a non-`Sync` database backend, please wrap it in a `Mutex`, `RwLock`,
+//! `UnsafeBox` or whatever `Sync`-able type you preffer. Please keep in mind the
+//! semantics of said type.
+//!
+//! Aymr does not offer any additional data safety or guarantees not provided by
+//! the underlying database.
+
+
 use std::sync::Arc;
 
 use crate::btreemap::db::AymrBtreeMap;
