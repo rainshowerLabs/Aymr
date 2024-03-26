@@ -12,10 +12,10 @@ pub trait AymrOpenable {
 
 /// Aymr database trait. Represents an easily implementable,
 /// common API for various KV databases.
-pub trait AymrDatabase<K,V>
+pub trait AymrDatabase<K, V>
 where
     K: AsRef<[u8]>,
-    V: AsRef<[u8]>
+    V: AsRef<[u8]>,
 {
     /// Clears the entire database, removing all values.
     fn clear(&mut self) -> Result<(), Error>;
@@ -66,4 +66,3 @@ pub trait AymrFlush {
 /// Marker trait to denote that a type is designed to work
 /// with Aymr.
 pub trait AymrConfig {}
-
