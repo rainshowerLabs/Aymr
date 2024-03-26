@@ -15,8 +15,6 @@
 //! Aymr does not offer any additional data safety or guarantees not provided by
 //! the underlying database.
 
-use std::sync::Arc;
-
 use crate::btreemap::db::AymrBtreeMap;
 
 use super::{
@@ -28,7 +26,7 @@ use super::{
     },
 };
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AymrDb<K, V> {
     #[cfg(feature = "btreemap")]
     db: AymrBtreeMap<K, V>,
@@ -37,12 +35,12 @@ pub struct AymrDb<K, V> {
 impl<K, V> AymrDb<K, V> {
     #[cfg(feature = "btreemap")]
     #[allow(dead_code)]
-    fn open() -> Arc<Self> {
+    pub fn open() -> Self {
         let rax = AymrDb {
             db: AymrBtreeMap::open(),
         };
 
-        Arc::new(rax)
+        rax
     }
 }
 

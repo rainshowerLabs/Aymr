@@ -27,7 +27,7 @@ use crate::aymr_db::{
 };
 
 /// Struct implementing `AymrDatabase` and `AymrOpenable` over `BTreeMap`.
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AymrBtreeMap<K, V> {
     db: BTreeMap<K, V>,
 }
