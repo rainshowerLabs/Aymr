@@ -84,3 +84,82 @@ where
         self.db.contains_key(key)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    // Helper function to create an instance of AymrDb for testing
+    fn create_test_db<K: AsRef<[u8]> + Ord, V: AsRef<[u8]>>() -> AymrDb<K, V> {
+        AymrDb {
+            db: AymrBtreeMap::open(),
+        }
+    }
+
+    #[test]
+    fn test_clear() {
+        let mut db = create_test_db::<Vec<u8>, Vec<u8>>();
+        assert!(db.clear().is_ok());
+    }
+
+    #[test]
+    fn test_len() {
+        let db = create_test_db::<Vec<u8>, Vec<u8>>();
+        assert_eq!(db.len(), 0);
+    }
+
+    #[test]
+    fn test_is_empty() {
+        let db = create_test_db::<Vec<u8>, Vec<u8>>();
+        assert!(db.is_empty().unwrap());
+    }
+
+    #[test]
+    fn test_get() {
+        let db = create_test_db::<Vec<u8>, Vec<u8>>();
+        assert!(db.get(&vec![1, 2, 3]).unwrap().is_none());
+    }
+
+    #[test]
+    fn test_insert_and_get() {
+        let mut db = create_test_db::<Vec<u8>, Vec<u8>>();
+        let key = vec![1, 2, 3];
+        let value = vec![4, 5, 6];
+        assert!(db.insert(key.clone(), value).is_ok());
+        assert!(db.get(&key).unwrap().is_some());
+    }
+
+    #[test]
+    fn test_remove() {
+        let mut db = create_test_db::<Vec<u8>, Vec<u8>>();
+        let key = vec![1, 2, 3];
+        let value = vec![4, 5, 6];
+        db.insert(key.clone(), value).unwrap();
+        assert_eq!(db.len(), 1);
+        assert!(db.remove(key).unwrap().is_some());
+        assert_eq!(db.len(), 0);
+    }
+
+    #[test]
+    fn test_contains_key() {
+        let mut db = create_test_db::<Vec<u8>, Vec<u8>>();
+        let key = vec![1, 2, 3];
+        let value = vec![4, 5, 6];
+        db.insert(key.clone(), value).unwrap();
+        assert!(db.contains_key(&key).unwrap());
+    }
+
+    #[test]
+    fn test_clear_after_insert() {
+        let mut db = create_test_db::<Vec<u8>, Vec<u8>>();
+
+        let _ = db.insert("key".into(), "value".into());
+        assert_eq!(db.len(), 1);
+
+        assert!(db.clear().is_ok());
+        assert_eq!(db.len(), 0);
+        assert!(db.is_empty().unwrap());
+    }
+
+}
+
