@@ -1,2 +1,3 @@
 pub mod aymr_db;
-pub mod btreemap;
+mod btreemap;
+mod hashmap;

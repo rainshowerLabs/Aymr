@@ -15,7 +15,11 @@
 //! Aymr does not offer any additional data safety or guarantees not provided by
 //! the underlying database.
 
+#[cfg(feature = "btreemap")]
 use crate::btreemap::db::AymrBtreeMap;
+
+#[cfg(feature = "hashmap")]
+use crate::hashmap::db::AymrHashMap;
 
 use super::{
     error::Error,
@@ -27,12 +31,21 @@ use super::{
 };
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct AymrDb<K, V> {
+pub struct AymrDb<K, V>
+where
+    K: Eq + std::hash::Hash,
+{
     #[cfg(feature = "btreemap")]
     db: AymrBtreeMap<K, V>,
+
+    #[cfg(feature = "hashmap")]
+    db: AymrHashMap<K, V>,
 }
 
-impl<K, V> AymrDb<K, V> {
+impl<K, V> AymrDb<K, V>
+where
+    K: Eq + std::hash::Hash,
+{
     #[cfg(feature = "btreemap")]
     #[allow(dead_code)]
     pub fn open() -> Self {
@@ -42,11 +55,22 @@ impl<K, V> AymrDb<K, V> {
 
         rax
     }
+
+    #[cfg(feature = "hashmap")]
+    #[allow(dead_code)]
+    pub fn open() -> Self {
+
+        let rax = AymrDb {
+            db: AymrHashMap::open(),
+        };
+
+        rax
+    }
 }
 
 impl<K, V> AymrDatabase<K, V> for AymrDb<K, V>
 where
-    K: AsRef<[u8]> + Ord,
+    K: AsRef<[u8]> + Ord + Eq + std::hash::Hash,
     V: AsRef<[u8]>,
 {
     fn clear(&mut self) -> Result<(), Error> {
@@ -87,9 +111,13 @@ mod tests {
     use super::*;
 
     // Helper function to create an instance of AymrDb for testing
-    fn create_test_db<K: AsRef<[u8]> + Ord, V: AsRef<[u8]>>() -> AymrDb<K, V> {
+    fn create_test_db<K: AsRef<[u8]> + Ord + std::hash::Hash, V: AsRef<[u8]>>() -> AymrDb<K, V> {
         AymrDb {
+            #[cfg(feature = "btreemap")]
             db: AymrBtreeMap::open(),
+
+            #[cfg(feature = "hashmap")]
+            db: AymrHashMap::open(),
         }
     }
 

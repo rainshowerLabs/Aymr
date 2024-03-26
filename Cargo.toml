@@ -12,3 +12,4 @@ zerocopy = "0.7.32"
 [features]
 default = ["btreemap"]
 btreemap = []
+hashmap = []
