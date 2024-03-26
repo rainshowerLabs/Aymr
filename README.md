@@ -1,3 +1,6 @@
+
+![aymr](https://github.com/rainshowerLabs/Aymr/assets/55022497/6c48699e-f2d2-4f02-8fd6-9ff08d94487c)
+
 # Aymr - Database abstraction library for hot-swapping KV databases
 
 ***Aymr is a work in progress! It cannot be used in production (for now!)***
@@ -14,7 +17,7 @@ It's important to note there's a lot of nuance between different KV databases, a
 
 Aymr is a rust library and can be imported as such. In order to select the database you want to use, please use the appropriate feature flag. For now we support the following:
 
-- Btreemap
+- [BTreeMap](https://doc.rust-lang.org/std/collections/struct.BTreeMap.html)
 
 Because database configs have little in common with each other, the config for every Aymr Db will be different. Please consult the Aymr docs for more info in how to set up and run each DB.
 
