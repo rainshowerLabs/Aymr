@@ -11,10 +11,11 @@ categories = ["database"]
 license = "GPL-2.0-or-later"
 
 [dependencies]
+sled = { version = "0.34.7", optional = true }
 zerocopy = "0.7.32"
 
 [features]
-default = ["btreemap"]
+default = ["sled_pre"]
 btreemap = []
 hashmap = []
-sled = []
+sled_pre = ["sled"]
