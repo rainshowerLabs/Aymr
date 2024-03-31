@@ -16,10 +16,10 @@
 //! the underlying database.
 
 #[cfg(feature = "btreemap")]
-use crate::btreemap::db::AymrBtreeMap;
+use crate::backends::btreemap::db::AymrBtreeMap;
 
 #[cfg(feature = "hashmap")]
-use crate::hashmap::db::AymrHashMap;
+use crate::backends::hashmap::db::AymrHashMap;
 
 use super::{
     error::Error,
