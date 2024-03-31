@@ -17,3 +17,4 @@ zerocopy = "0.7.32"
 default = ["btreemap"]
 btreemap = []
 hashmap = []
+sled = []
