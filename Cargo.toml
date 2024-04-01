@@ -15,7 +15,7 @@ sled = { version = "0.34.7", optional = true }
 zerocopy = "0.7.32"
 
 [features]
-default = ["sled_pre"]
+default = ["hashmap"]
 btreemap = []
 hashmap = []
 sled_pre = ["sled"]
